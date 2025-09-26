@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <title>Library App</title>
 </head>
 <body>
-    
+    <div class="flex-container">
+        <h1>Library</h1>
+        <div class="book-container"></div>
+        <p> 
+            <button id="new-book-btn">Add Book</button> 
+        </p>
+    </div>
+    <dialog closedby="closerequest">
+        <form action="" method="post" class="form-container">
+            <input type="text" name="title" id="title-input" required placeholder="Title">
+            <input type="text" name="author" id="author-input"required placeholder="Author">
+            <input type="number" name="Pages" id="pages-input" required placeholder="Pages">
+            <input type="submit" value="Submit Book">
+        </form>
+    </dialog>
 </body>
 </html>
