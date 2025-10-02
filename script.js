@@ -6,19 +6,31 @@ const title = document.querySelector('#title-input');
 const author = document.querySelector('#author-input');
 const pages = document.querySelector('#pages-input');
 const bookContainer = document.querySelector('.book-container');
+const checkBox = document.querySelector('#read-check');
 // Show the dialog
 addBtn.addEventListener('click', () => {
     dialog.showModal();
 })
 
+
+
+
 bookForm.addEventListener('submit', (event) =>{
     event.preventDefault();
-    const bookTitle = title.value;
-    const bookAuthor = author.value;
+    const bookTitle = title.value.trim();
+    const bookAuthor = author.value.trim();
     const bookPages = pages.value;
+    const readCheck = checkBox.checked;
+    let readString;
+    
+    if (readCheck) {
+        readString = 'Readed';
+    } else {
+        readString = 'Not Yet Readed';
+    };
 
     //1. Create the new book object using the captured data.
-    const newBook = new Book(bookTitle, bookAuthor, bookPages, 'not read yet');
+    const newBook = new Book(bookTitle, bookAuthor, bookPages, readString);
     
     //2. Add the book to the library array
     myLibrary.push(newBook);
@@ -30,7 +42,7 @@ bookForm.addEventListener('submit', (event) =>{
     dialog.close();
     bookForm.reset();
 
-    console.log(`Title: ${bookTitle}, Author: ${bookAuthor}, Pages: ${bookPages}`);
+    //console.log(`Title: ${bookTitle}, Author: ${bookAuthor}, Pages: ${bookPages}`);
 })
 
 function Book(title, author, pages,read) {
@@ -43,10 +55,6 @@ function Book(title, author, pages,read) {
     this.pages = pages;
     this.read = read;
     this.id = crypto.randomUUID();
-    
-    this.info = function () {
-        return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}, id: ${this.id}`
-    }
 }
 
 function displayBooks() {
@@ -66,9 +74,9 @@ function displayBooks() {
                 <h2>${book.title}</h2>
                 <p>Author: ${book.author}</p>
                 <p>Pages: ${book.pages}</p>
-
+                <p>Has Read: ${book.read}</p>
                 <div class="card-actions">
-                    <button class="read-toggle-btn">${book.read}</button>
+                    <button class="read-toggle-btn">Toggle Read</button>
                     <button class="remove-btn" data-index="${index}">Remove</button>
                 </div>
             `;
@@ -77,19 +85,42 @@ function displayBooks() {
             bookContainer.appendChild(bookCard);
         });
     }
-/*
-const theHobbit = new Book('The Hobbit', 'J.R.R Tolkien', 295, 'not read yet');
 
-console.log(theHobbit.info());
+function removeBook() {
+    bookContainer.addEventListener('click', (event) => {
+        // Get the index and the target element
+        const target = event.target;
+    
+        //remove button on the card book
+        if (target.classList.contains('remove-btn')) {
+            
+            const indexToRemove = target.dataset.index;
+            // remove from the data source
+            myLibrary.splice(indexToRemove, 1);
 
-console.log(Object.getPrototypeOf(theHobbit))
-console.log(theHobbit.valueOf())
+            displayBooks();
+            return; // stop execution after removal
+        }
+    
+    // toggle read button on the card book
+        if (target.classList.contains('read-toggle-btn')) {
 
-const harryPotter = new Book('Harry Potter', 'J. K. Rowling', 300, 'readed' );
-console.log(harryPotter.info());
-console.log(harryPotter.valueOf());
+            // Get the index from the closest parent book card
+            const bookCard = target.closest('.book-card');
+            const indexToToggle = bookCard.dataset.index;
+            // Get the book object from the array
+            const book = myLibrary[indexToToggle];
 
-myLibrary.push(theHobbit);
-myLibrary.push(harryPotter);
-console.log(myLibrary);
-*/
+            //Toggle the read status
+            if (book.read === 'Readed') {
+                book.read = 'Not Yet Readed';
+            } else {
+                book.read = 'Readed';
+            }
+
+            displayBooks();
+        }
+    });
+}
+
+removeBook(); 
