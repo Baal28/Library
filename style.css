@@ -55,6 +55,27 @@ h1, h2, h3, h4, h5, h6 {
 
 .book-container{
     display: grid;
+    grid-template-columns: repeat(3, minmax(250px,2fr));
+    gap: 20px;
+}
+
+.book-card{
+  background-color: #F3A847;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.read-toggle-btn, .remove-btn{
+  border:none;
+  border-radius: 15px;
+  background-color: #F7FAFA;
+  cursor: pointer;
+}
+
+.read-toggle-btn:hover, .remove-btn:hover{
+  background-color: darkgrey;
+  color: #F7FAFA;
 }
 
 
