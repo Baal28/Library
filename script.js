@@ -1,4 +1,3 @@
-const myLibrary = [];
 const dialog = document.querySelector('dialog');
 const addBtn = document.querySelector('#new-book-btn');
 const bookForm = document.querySelector('.form-container');
@@ -12,7 +11,24 @@ addBtn.addEventListener('click', () => {
     dialog.showModal();
 })
 
+class Library {
+    constructor() {
+        this.books = [];
+    }
 
+    addBook(newBook){
+         this.books.push(newBook);
+    }
+
+    removeBook(index){
+        this.books.splice(index,1);
+    }
+
+    getBooks(){
+        return this.books;
+    }
+}
+let myLibrary = new Library();
 
 
 bookForm.addEventListener('submit', (event) =>{
@@ -33,7 +49,7 @@ bookForm.addEventListener('submit', (event) =>{
     const newBook = new Book(bookTitle, bookAuthor, bookPages, readString);
     
     //2. Add the book to the library array
-    myLibrary.push(newBook);
+    myLibrary.addBook(newBook);
 
     //3.shows the book recently created
     displayBooks();
@@ -45,16 +61,19 @@ bookForm.addEventListener('submit', (event) =>{
     //console.log(`Title: ${bookTitle}, Author: ${bookAuthor}, Pages: ${bookPages}`);
 })
 
-function Book(title, author, pages,read) {
-    if (!new.target) {
-        throw Error("You must use the 'new' operator to call the constructor");
-               
+class Book {
+    constructor(title, author, pages, read){
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this. id = crypto.randomUUID();
     }
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.id = crypto.randomUUID();
+
+    //methods below
+    toggleReadStatus(){
+        this.read = this.read === 'Readed' ? 'Not Yet Readed' : 'Readed';
+    }
 }
 
 function displayBooks() {
@@ -62,7 +81,7 @@ function displayBooks() {
         bookContainer.innerHTML= '';
         
         //2. iterate loop through every book object in the array
-        myLibrary.forEach((book, index) => {
+        myLibrary.getBooks().forEach((book, index) => {
             //3. create html for book card
             const bookCard = document.createElement('div');
             bookCard.classList.add('book-card');
@@ -96,7 +115,7 @@ function removeBook() {
             
             const indexToRemove = target.dataset.index;
             // remove from the data source
-            myLibrary.splice(indexToRemove, 1);
+            myLibrary.removeBook(indexToRemove);
 
             displayBooks();
             return; // stop execution after removal
@@ -109,14 +128,11 @@ function removeBook() {
             const bookCard = target.closest('.book-card');
             const indexToToggle = bookCard.dataset.index;
             // Get the book object from the array
-            const book = myLibrary[indexToToggle];
-
+            const book = myLibrary.getBooks()[indexToToggle];
+    
             //Toggle the read status
-            if (book.read === 'Readed') {
-                book.read = 'Not Yet Readed';
-            } else {
-                book.read = 'Readed';
-            }
+            book.toggleReadStatus();
+             
 
             displayBooks();
         }
