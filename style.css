@@ -3,7 +3,9 @@
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -22,67 +24,247 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 
 p {
   text-wrap: pretty;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
 }
 
-#root, #__next {
+#root,
+#__next {
   isolation: isolate;
 }
 
-.flex-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
 }
 
-.book-container{
-    display: grid;
-    grid-template-columns: repeat(3, minmax(250px,2fr));
-    gap: 20px;
-}
-
-.book-card{
-  background-color: #F3A847;
-  border: 1px solid black;
-  border-radius: 15px;
-  padding: 15px;
-}
-
-.read-toggle-btn, .remove-btn{
-  border:none;
-  border-radius: 15px;
-  background-color: #F7FAFA;
+#new-book-btn {
+  padding: 10px 16px; /* A bit more breathing room */
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease; /* Smoother transition */
+
+  /* Modern colors */
+  background-color: #10b981; /* Vibrant emerald green */
+  border: 1px solid #059669;
+  color: #ffffff; /* Pure white for maximum contrast */
+
+  /* Subtle shadow for depth */
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
 }
 
-.read-toggle-btn:hover, .remove-btn:hover{
-  background-color: darkgrey;
-  color: #F7FAFA;
+#new-book-btn:hover {
+  background-color: #059669; /* Darker shade on hover */
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
 }
 
+#new-book-btn:active {
+  transform: translateY(0);
+}
 
+/* Main library container */
+.book-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
 
-.form-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
+/* Book Card Style */
+.book-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Typography */
+.book-card h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #111827;
+  font-weight: 700;
+}
+
+.book-card p {
+  margin: 0.25rem 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+/* Reading status (you can add classes based on text) */
+.book-card p:last-of-type {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #2563eb; /* Default blue */
+}
+
+/* Button container */
+.card-actions {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Buttons inside the card */
+.card-actions button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.read-toggle-btn {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.remove-btn {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.card-actions button:hover {
+  filter: brightness(0.95);
+}
+
+.status-read {
+  color: #059669 !important;
+} /* Green */
+.status-not-read {
+  color: #d97706 !important;
+} /* Orange */
+
+/* Dialog Styles */
+.dialog-container {
+  border: none;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+
+  /* Modern centering (dialogs center by default, 
+       but this ensures it looks good in the viewport) */
+  margin: auto;
+}
+
+.dialog-container::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px); /* Modern blur effect */
+}
+
+/* Form Container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* Text and Number input styles */
+.form-container input[type="text"],
+.form-container input[type="number"] {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.form-container input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+/* Checkbox area */
+.form-container p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #444;
+  font-weight: 500;
+}
+
+/* Submit Button */
+.form-container input[type="submit"] {
+  background-color: #2563eb;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.form-container input[type="submit"]:hover {
+  background-color: #1d4ed8;
+}
+
+/* Style for invalid inputs while the user is typing */
+input:focused:invalid {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.2);
 }
